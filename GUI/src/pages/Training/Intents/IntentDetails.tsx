@@ -22,11 +22,11 @@ import { ROLES } from 'hoc/with-authorization';
 import useStore from '../../../store/store';
 import { editResponse } from 'services/responses';
 import { addStoryOrRule, deleteStoryOrRule } from 'services/stories';
-import { Rule, RuleDTO } from 'types/rule';
+import { RuleDTO } from 'types/rule';
 import ConnectServiceToIntentModal from 'pages/ConnectServiceToIntentModal';
 import LoadingDialog from 'components/LoadingDialog';
 import useDocumentEscapeListener from 'hooks/useDocumentEscapeListener';
-import { IntentWithExamplesCount } from 'types/intentWithExampleCounts';
+import { IntentWithExamplesCount } from 'types/intentWithExamplesCount';
 
 interface Response {
   name: string;
@@ -357,6 +357,7 @@ const IntentDetails: FC<IntentDetailsProps> = ({ intentId, setSelectedIntent, li
       });
     },
     onSettled: () => {
+      queryRefresh();
       setRefreshing(false);
     },
   });
@@ -392,7 +393,7 @@ const IntentDetails: FC<IntentDetailsProps> = ({ intentId, setSelectedIntent, li
 
     addOrEditResponseMutation.mutate({
       id: `utter_${intentId}`,
-      responseText,
+      responseText: responseText.replaceAll(/\n{2,}/g, '\n').replaceAll('\n', '\\n\\n'),
       update: !!responseName,
     });
 
@@ -411,8 +412,6 @@ const IntentDetails: FC<IntentDetailsProps> = ({ intentId, setSelectedIntent, li
         },
       });
     }
-
-    queryRefresh();
   };
 
   const deleteIntentMutation = useMutation({
