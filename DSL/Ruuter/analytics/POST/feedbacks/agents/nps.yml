@@ -12,7 +12,7 @@ declaration:
         type: string
         description: "Body field 'end_date'"
       - field: excluded_csas
-        type: array
+        type: object
         description: "Body field 'excluded_csas'"
       - field: metric
         type: string

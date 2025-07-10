@@ -14,8 +14,9 @@ import HistoricalChat from "../HistoricalChat";
 import './ChatsTable.scss';
 import {useMutation} from "@tanstack/react-query";
 import {analyticsApi} from "../services/api";
-import {useToast} from "../../hooks/useToast";
 import {AxiosError} from "axios";
+import {ChatHistory} from '@buerokratt-ria/common-gui-components';
+import {useToast} from "../../hooks/useToast";
 import useStore from "../../store/user/store";
 
 type Props = {
@@ -106,7 +107,23 @@ const ChatsTable = (props: Props) => {
                 header: 'ID',
             }),
             columnHelper.accessor(
-                (row) => row.firstName ?`${row.firstName ?? ''} ${row.lastName ?? ''}` : BACKOFFICE_NAME.DEFAULT,
+                (row) => {
+                    if (Array.isArray(row.allCsaNames) && !(row.allCsaNames.length === 1 && (row.allCsaNames[0] == null || row.allCsaNames[0].toString().trim() === ''))) {
+                        const cleanedNames = row.allCsaNames
+                            .filter(name => !!name && typeof name === 'string')
+                            .map(name => name.trim())
+                            .filter(name => name !== "")
+                            .filter((name, index, self) => self.indexOf(name) === index);
+
+                        const filteredNames = cleanedNames.length > 1
+                            ? cleanedNames.filter(name => name !== "Bürokratt")
+                            : cleanedNames;
+
+                        return filteredNames.join(", ");
+                    } else {
+                        return BACKOFFICE_NAME.DEFAULT;
+                    }
+                },
                 {
                     id: `name`,
                     header: t('chat.history.csaName') ?? '',
@@ -142,6 +159,18 @@ const ChatsTable = (props: Props) => {
     );
 
     return (
+        <>
+            <ChatHistory
+                toastContext={useToast()}
+                displayDateFilter={false}
+                displaySearchBar={false}
+                displayTitle={false}
+                delegatedEndDate={props.endDate}
+                delegatedStartDate={props.startDate}
+                user={useStore.getState().userInfo}
+            />
+            TEST
+            <div className="card-drawer-container">
 
         <div className="card-drawer-container">
             <div className="card-wrapper">
@@ -173,11 +202,14 @@ const ChatsTable = (props: Props) => {
                             chat={selectedChat}
                             onCommentChange={handleCommentChange}
                             trigger={true}
-                        />
-                    </Drawer>
-                </div>
-            )}
-        </div>
+
+                            />
+                        </Drawer>
+                    </div>
+                )}
+            </div>
+            </div>
+        </>
     );
 };
 

@@ -45,7 +45,8 @@
     "forward": "Forward",
     "chosen": "Chosen",
     "read": "Read",
-    "dateTime": "Date"
+    "dateTime": "Date",
+    "statusClarification": "Status clarification"
   },
   "mainMenu": {
     "closeMenu": "Close menu",
@@ -110,6 +111,7 @@
   },
   "feedback": {
     "statuses": "Completed statuses / number of conversations",
+    "feedback": "Feedback",
     "burokratt_chats": "Feedback on bureaucrat conversations",
     "advisor_chats": "Feedback on advisor conversations",
     "selected_advisor_chats": "Feedback to selected advisor",
@@ -184,6 +186,7 @@
     "event": "Event",
     "avg": "Average",
     "nps": "NPS",
+    "customerSupportFullName": "CSA Nimi",
     "id": "Id",
     "baseId": "Id",
     "rating": "Rating",
@@ -276,7 +279,13 @@
     "correct_apikey_message": "API Key and API Key ID validated",
     "disabled_create_dataset_tooltip": "In order to enable, please configure Open Data Access first",
     "save_configuration_failed": "Error saving configuration",
-    "no_datasets_description": "No Datasets found"
+    "no_datasets_description": "No Datasets found",
+    "save": "Save",
+    "timeInterval": "Time Interval",
+    "receivedChats": "Received Chats",
+    "avgWaitingTimeSeconds": "Average (Sec)",
+    "forwardedChats": "Forwarded Chats",
+    "forwardedExternally": "Forwarded Externally"
   },
   "advisors": {
     "chat_forwards": "Forwarding",
@@ -361,7 +370,9 @@
       "forwarded": "Forwarded",
       "addACommentToTheConversation": "Add a comment to the conversation",
       "rating": "Rating",
-      "feedback": "Feedback"
+      "feedback": "Feedback",
+      "chosenCsa": "Chosen csa(s)",
+      "chosenColumn": "Chosen column(s)"
     },
     "plainEvents": {
       "answered": "Answered",
@@ -490,7 +501,8 @@
       "newValidationMessage": "New message to validate",
       "useAutocorrect": "Text auto corrector",
       "required": "Required",
-      "invalidemail": "Invalid email"
+      "invalidemail": "Invalid email",
+      "statusCommentUpdated": "Status clarification updated"
     }
   },
   "roles": {

@@ -6,8 +6,8 @@ import { MetricOptionsState } from '../components/MetricAndPeriodOptions/types';
 import {
   chartDataKey,
   formatDate,
-  getAdvisorsList,
   getAdvisorChartData,
+  getAdvisorsList,
   translateChartKeys,
 } from '../util/charts-utils';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -19,9 +19,8 @@ import {
   getCsaAvgChatTime,
   getCsaChatsTotal,
 } from '../resources/api-constants';
-import { request, Methods } from '../util/axios-client';
+import { Methods, request } from '../util/axios-client';
 import withAuthorization, { ROLES } from '../hoc/with-authorization';
-import { randomColor } from 'util/generateRandomColor';
 import { ChartData } from 'types/chart';
 import { usePeriodStatisticsContext } from 'hooks/usePeriodStatisticsContext';
 
@@ -78,6 +77,12 @@ const AdvisorsPage: React.FC = () => {
   useEffect(() => {
     setPeriodStatistics(chartData, unit);
   }, [chartData, unit]);
+
+  useEffect(() => {
+    if (currentConfigs) {
+      configsSubject.next(currentConfigs);
+    }
+  }, [currentConfigs]);
 
   const [configsSubject] = useState(() => new Subject());
   useEffect(() => {
@@ -155,7 +160,7 @@ const AdvisorsPage: React.FC = () => {
         }),
       };
     } catch (_) {
-      //error
+      console.error(_)
     }
     return chartData;
   };
@@ -186,7 +191,7 @@ const AdvisorsPage: React.FC = () => {
         minPointSize: 3,
       };
     } catch (_) {
-      //error
+      console.error(_)
     }
     return chartData;
   };
@@ -217,7 +222,7 @@ const AdvisorsPage: React.FC = () => {
         minPointSize: 3,
       };
     } catch (_) {
-      //error
+      console.error(_)
     }
     return chartData;
   };
@@ -259,7 +264,7 @@ const AdvisorsPage: React.FC = () => {
         }),
       };
     } catch (_) {
-      //error
+      console.error(_)
     }
     return chartData;
   };
@@ -302,9 +307,15 @@ const AdvisorsPage: React.FC = () => {
         minPointSize: 3,
       };
     } catch (_) {
-      //error
+      console.error(_)
     }
     return chartData;
+  };
+
+  const configsAreEqual = (a: MetricOptionsState, b: MetricOptionsState | undefined) => {
+    const { options: _, ...restA } = a ?? {};
+    const { options: __, ...restB } = b ?? {};
+    return JSON.stringify(restA) === JSON.stringify(restB);
   };
 
   return (
@@ -315,17 +326,19 @@ const AdvisorsPage: React.FC = () => {
         enableSelectAll={showSelectAll}
         dateFormat="yyyy-MM-dd"
         onChange={(config) => {
-          setCurrentConfigs(config);
-          configsSubject.next(config);
-          if (currentMetric != `advisors.${config.metric}`) {
-            advisors.current = [];
-          }
-          setCurrentMetric(`advisors.${config.metric}`);
-          setAdvisorsList([]);
+          if (!configsAreEqual(config, currentConfigs)) {
+            setCurrentConfigs(config);
+            configsSubject.next(config);
+            if (currentMetric != `advisors.${config.metric}`) {
+              advisors.current = [];
+            }
+            setCurrentMetric(`advisors.${config.metric}`);
+            setAdvisorsList([]);
 
-          const selectedOption = advisorsMetrics.find((x) => x.id === config.metric);
-          if (!selectedOption) return;
-          setUnit(selectedOption?.unit ?? 'chats');
+            const selectedOption = advisorsMetrics.find((x) => x.id === config.metric);
+            if (!selectedOption) return;
+            setUnit(selectedOption?.unit ?? 'chats');
+          }
         }}
       />
       <MetricsCharts

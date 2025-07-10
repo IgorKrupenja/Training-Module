@@ -1,5 +1,5 @@
 WITH chat_stats AS (
-    SELECT date_trunc('hour', created) AS created,
+    SELECT date_trunc('hour', ended) AS ended,
         base_id,
         (
             SELECT 1
@@ -38,9 +38,9 @@ WITH chat_stats AS (
                 AND "event" = 'RESPONSE_SENT_TO_CLIENT_EMAIL'
         ) AS response_sent_to_client_email
     FROM chat
-    WHERE created >= date_trunc('hour', CURRENT_DATE)
+    WHERE ended >= date_trunc('hour', CURRENT_DATE)
 )
-SELECT timescale.created AS created,
+SELECT timescale.ended AS ended,
     COUNT(DISTINCT base_id) AS metric_value,
     COUNT(DISTINCT base_id) filter (
         WHERE client_left_with_accepted IS NOT NULL
@@ -68,8 +68,8 @@ FROM (
                     NOW(),
                     '1 hour'::INTERVAL
                 )
-            ) AS created
+            ) AS ended
     ) AS timescale
-    LEFT JOIN chat_stats ON chat_stats.created = timescale.created
+    LEFT JOIN chat_stats ON chat_stats.ended = timescale.ended
 GROUP BY 1
-ORDER BY 1 DESC
+ORDER BY 1 desc

@@ -85,6 +85,7 @@ export interface Chat {
   receivedFrom?: string;
   comment?: string;
   labels: string;
+  allCsaNames: string[];
 }
 export interface GroupedChat {
   myChats: Chat[];

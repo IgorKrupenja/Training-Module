@@ -9,7 +9,12 @@ WITH chatbot_chats AS (
         FROM message
         WHERE message.chat_base_id = chat.base_id
         AND message.author_role = 'backoffice-user'
-    )
+    ) AND NOT EXISTS (
+    SELECT 1
+    FROM message
+    WHERE message.chat_base_id = chat.base_id
+    AND message.event = 'taken-over'
+)
     GROUP BY time
 ),
 csa_chats AS (
@@ -23,7 +28,12 @@ csa_chats AS (
         FROM message
         WHERE message.chat_base_id = chat.base_id
         AND message.author_role = 'backoffice-user'
-    )
+    ) AND EXISTS (
+    SELECT 1
+    FROM message
+    WHERE message.chat_base_id = chat.base_id
+    and message.event = 'taken-over'
+)
     GROUP BY time
 )
 SELECT time, SUM(count) AS sum_count

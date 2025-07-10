@@ -157,7 +157,7 @@ WHERE c.created::date BETWEEN :start::date AND :end::date
     c.base_id IN (
       SELECT DISTINCT m.chat_base_id
       FROM message m
-      WHERE m.event = 'unavailable_organization_ask_contacts' AND m.author_role = 'chatbot'
+      WHERE m.event = 'unavailable_organization_ask_contacts' AND m.author_id = 'chatbot'
     )
   )
 AND (

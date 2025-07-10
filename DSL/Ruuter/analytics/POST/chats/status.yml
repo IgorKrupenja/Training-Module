@@ -9,13 +9,13 @@ declaration:
   allowlist:
     body:
       - field: csa_events
-        type: array
+        type: object
         description: "Body field 'csa_events'"
       - field: end_date
         type: string
         description: "Body field 'end_date'"
       - field: events
-        type: array
+        type: object
         description: "Body field 'events'"
       - field: metric
         type: string

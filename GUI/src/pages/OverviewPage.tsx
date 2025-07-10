@@ -44,7 +44,7 @@ const OverviewPage: React.FC = () => {
 
     const response = result.response['chat-activity'].map((entry: any) => ({
       ...translateChartKeys(entry),
-      dateTime: new Date(entry.created).getTime(),
+      dateTime: new Date(entry.ended).getTime(),
     }));
 
     const chartData = {
@@ -94,7 +94,7 @@ const OverviewPage: React.FC = () => {
   const translateChartKeys = (obj: any) =>
     Object.keys(obj).reduce(
       (acc, key) =>
-        key === 'created'
+        key === 'created' || key === 'ended'
           ? acc
           : {
               ...acc,

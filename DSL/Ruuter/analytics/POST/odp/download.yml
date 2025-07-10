@@ -9,7 +9,7 @@ declaration:
   allowlist:
     body:
       - date_rows:
-        type: array
+        type: object
         description: "Array of string arrays for the date rows at the top of the XSLX file"
       - field: end
         type: string
@@ -18,7 +18,7 @@ declaration:
         type: string
         description: "Body field 'metrics'"
       - field: metric_names
-        type: array
+        type: object
         description: "Localized metric names"
       - field: start
         type: string

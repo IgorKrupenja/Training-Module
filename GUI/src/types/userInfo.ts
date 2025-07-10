@@ -10,5 +10,7 @@ export interface UserInfo {
   authorities: string[];
   displayName: string;
   idCode: string;
+  csaEmail: string;
+  csaTitle: string;
   email: string;
 }

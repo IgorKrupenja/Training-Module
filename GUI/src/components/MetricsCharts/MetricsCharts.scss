@@ -32,5 +32,9 @@
 .charts_wrapper {
   .recharts-wrapper {
     height: 100% !important;
+
+    & > svg {
+      height: auto !important;
+    }
   }
 }

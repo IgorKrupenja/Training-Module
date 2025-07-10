@@ -22,7 +22,7 @@ WITH botname AS (
             current_date - concat('1 ', :group_period)::INTERVAL
         )
 )
-SELECT date_trunc(:group_period, timescale.created) AS created,
+SELECT date_trunc(:group_period, timescale.ended) AS ended,
     COALESCE(
         AVG(
             extract(
@@ -52,8 +52,8 @@ FROM (
                     NOW(),
                     '1 day'::INTERVAL
                 )
-            ) AS created
+            ) AS ended
     ) AS timescale
-    LEFT JOIN customer_support_changes ON customer_support_changes.created = timescale.created
+    LEFT JOIN customer_support_changes ON customer_support_changes.created = timescale.ended
 GROUP BY 1
-ORDER BY 1 DESC
+ORDER BY 1 desc
