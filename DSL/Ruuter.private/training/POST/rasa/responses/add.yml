@@ -14,9 +14,6 @@ declaration:
       - field: response
         type: string
         description: "Body field 'response'"
-      - field: intent
-        type: string
-        description: "Intent name for the response"
     header:
       - field: cookie
         type: string
@@ -89,7 +86,7 @@ updateOpenSearch:
   args:
     url: "[#TRAINING_PIPELINE]/bulk/domain"
     body:
-      input: ${domainYaml.response.body.json} 
+      input: ${domainYaml.response.body.json}
   result: updateSearchResult
   next: isIntentProvided
 

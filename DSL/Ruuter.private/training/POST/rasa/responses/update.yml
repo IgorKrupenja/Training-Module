@@ -14,9 +14,6 @@ declaration:
       - field: response
         type: object
         description: "Body field 'response'"
-      - field: intent
-        type: string
-        description: "Intent name for the response"
     header:
       - field: cookie
         type: string
